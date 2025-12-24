@@ -56,6 +56,22 @@
             </div>
 
         </div>
+
+        <!-- Name Exists Modal -->
+        <div id="name-exists-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Name Already Entered</h3>
+                <p>The name "<strong id="existing-name"></strong>" has already been entered.</p>
+                <div class="modal-buttons-vertical">
+                    <button onclick="claimName()" class="confirm-btn" id="claim-name-btn">
+                        Join as "<span id="claim-name-text"></span>"
+                    </button>
+                    <button onclick="hideNameExistsModal()" class="cancel-btn">
+                        Change Name
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>

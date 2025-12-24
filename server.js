@@ -145,14 +145,21 @@ io.on('connection', (socket) => {
             return;
         }
 
-        if (room.started) {
-            socket.emit('join-error', 'Game has already started');
+        // Check for duplicate names
+        const existingPlayer = room.players.find(p => p.name.toLowerCase() === playerName.toLowerCase());
+
+        if (existingPlayer) {
+            // Name exists - offer to claim it
+            socket.emit('name-exists', {
+                name: existingPlayer.name,
+                isManual: existingPlayer.isManual || false,
+                gameStarted: room.started
+            });
             return;
         }
 
-        // Check for duplicate names
-        if (room.players.some(p => p.name.toLowerCase() === playerName.toLowerCase())) {
-            socket.emit('join-error', 'Name already taken');
+        if (room.started) {
+            socket.emit('join-error', 'Game has already started');
             return;
         }
 
@@ -169,6 +176,52 @@ io.on('connection', (socket) => {
 
         // Confirm join to player
         socket.emit('join-success', { playerName });
+
+        // Notify host of updated player list
+        io.to(code).emit('player-list', room.players);
+    });
+
+    // Player claims an existing name
+    socket.on('claim-name', ({ roomCode, playerName }) => {
+        const code = roomCode.toUpperCase();
+        const room = rooms.get(code);
+
+        if (!room) {
+            socket.emit('join-error', 'Room not found');
+            return;
+        }
+
+        const existingPlayer = room.players.find(p => p.name.toLowerCase() === playerName.toLowerCase());
+
+        if (!existingPlayer) {
+            socket.emit('join-error', 'Name no longer exists');
+            return;
+        }
+
+        // Update the player's socket id to this socket
+        const oldId = existingPlayer.id;
+        existingPlayer.id = socket.id;
+        existingPlayer.isManual = false;
+
+        socket.join(code);
+        socket.roomCode = code;
+        socket.playerName = existingPlayer.name;
+
+        // Confirm join to player
+        socket.emit('join-success', { playerName: existingPlayer.name });
+
+        // If game already started, send them their number
+        if (room.started && room.assignments) {
+            const assignment = room.assignments.find(a => a.name.toLowerCase() === playerName.toLowerCase());
+            if (assignment) {
+                // Update assignment id too
+                assignment.id = socket.id;
+                socket.emit('your-number', {
+                    number: assignment.number,
+                    total: room.assignments.length
+                });
+            }
+        }
 
         // Notify host of updated player list
         io.to(code).emit('player-list', room.players);

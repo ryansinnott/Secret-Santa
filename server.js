@@ -7,8 +7,14 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 
+// Trust proxy for correct protocol detection behind reverse proxy
+app.set('trust proxy', true);
+
 // Base path for hosting at a subpath (e.g., '/projects/secretsanta')
 const BASE_PATH = process.env.BASE_PATH || '';
+
+// Optional: Full base URL override (e.g., 'https://syntrava.com.au/projects/secretsanta')
+const BASE_URL = process.env.BASE_URL || '';
 
 const io = new Server(server, {
     path: BASE_PATH + '/socket.io'
@@ -56,8 +62,8 @@ app.get(BASE_PATH + '/api/create-room', async (req, res) => {
         assignments: null
     });
 
-    // Generate QR code
-    const baseUrl = `${req.protocol}://${req.get('host')}${BASE_PATH}`;
+    // Generate QR code - use BASE_URL if set, otherwise construct from request
+    const baseUrl = BASE_URL || `${req.protocol}://${req.get('host')}${BASE_PATH}`;
     const joinUrl = `${baseUrl}/join.html?room=${code}`;
 
     try {

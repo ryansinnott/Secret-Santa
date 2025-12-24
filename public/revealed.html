@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traditional Mode - Silly Santa</title>
+    <title>Create Game - Silly Santa</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎅</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -55,6 +55,14 @@
                     <button id="start-revealed-btn" onclick="startRevealedGame()" disabled>
                         🎁 Assign Numbers!
                     </button>
+
+                    <div class="option-toggle">
+                        <label class="toggle-checkbox">
+                            <input type="checkbox" id="hide-order-toggle">
+                            <span>Hide order</span>
+                        </label>
+                        <span class="help-icon" onclick="showHideOrderHelp()">?</span>
+                    </div>
                 </div>
             </div>
 
@@ -73,6 +81,14 @@
                 <button id="manual-start-btn" onclick="startManualGame()" disabled>
                     🎁 Assign Numbers!
                 </button>
+
+                <div class="option-toggle">
+                    <label class="toggle-checkbox">
+                        <input type="checkbox" id="mystery-mode-toggle">
+                        <span>Mystery mode</span>
+                    </label>
+                    <span class="help-icon" onclick="showMysteryModeHelp()">?</span>
+                </div>
             </div>
 
             <button id="back-to-methods" class="back-link hidden" onclick="showMethodSelection()">
@@ -87,12 +103,43 @@
                 <ol id="ladder-list"></ol>
             </div>
 
+            <div class="option-toggle">
+                <label class="toggle-checkbox">
+                    <input type="checkbox" id="show-order-toggle" checked onchange="toggleOrderVisibility()">
+                    <span>Show order</span>
+                </label>
+            </div>
+
             <button id="add-participant-btn" onclick="showAddParticipant()">
                 + Add Participant
             </button>
 
             <button onclick="restart()">
                 🔄 Start New Game
+            </button>
+        </div>
+
+        <!-- Mystery Mode Reveal Phase -->
+        <div id="mystery-reveal" class="hidden">
+            <div class="reveal-card">
+                <div class="number-badge">
+                    #<span id="mystery-current-number">1</span>
+                </div>
+                <div class="name-reveal">
+                    <span id="mystery-current-name">Name</span>
+                </div>
+            </div>
+
+            <p class="progress">
+                <span id="mystery-current-index">1</span> of <span id="mystery-total-players">0</span>
+            </p>
+
+            <button id="mystery-next-btn" onclick="mysteryNextPerson()">
+                Next Person ➡️
+            </button>
+
+            <button id="mystery-restart-btn" class="hidden" onclick="restart()">
+                🔄 Start Over
             </button>
         </div>
 
@@ -135,6 +182,24 @@
                     <button onclick="hideConfirmRemove()" class="cancel-btn">Cancel</button>
                     <button onclick="confirmRemove()" class="confirm-btn danger">Remove</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Mystery Mode Help Modal -->
+        <div id="mystery-help-modal" class="help-modal hidden">
+            <div class="help-modal-content">
+                <h3>Mystery Mode</h3>
+                <p>In Mystery Mode, players are revealed one at a time with their assigned number. Pass the device around - no one knows who's next until they see their name appear!</p>
+                <button onclick="hideHelpModal('mystery-help-modal')">Got it!</button>
+            </div>
+        </div>
+
+        <!-- Hide Order Help Modal -->
+        <div id="hide-order-help-modal" class="help-modal hidden">
+            <div class="help-modal-content">
+                <h3>Hide Order</h3>
+                <p>When enabled, the order list won't be shown on your screen after numbers are assigned. Players will only see their own number on their phone. You can turn this on or off at any time.</p>
+                <button onclick="hideHelpModal('hide-order-help-modal')">Got it!</button>
             </div>
         </div>
     </div>

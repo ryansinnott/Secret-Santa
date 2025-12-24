@@ -13,6 +13,10 @@ let removeIndex = null;
 // Manual entry players list
 let manualPlayers = [];
 
+// Mystery mode state
+let mysteryCurrentIndex = 0;
+let hideOrderEnabled = false;
+
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
@@ -131,8 +135,18 @@ function startManualGame() {
     }));
 
     revealedSetup.classList.add('hidden');
-    revealedLadder.classList.remove('hidden');
-    renderLadder();
+
+    // Check if mystery mode is enabled
+    const mysteryModeToggle = document.getElementById('mystery-mode-toggle');
+    if (mysteryModeToggle && mysteryModeToggle.checked) {
+        // Start mystery mode reveal
+        mysteryCurrentIndex = 0;
+        showMysteryReveal();
+    } else {
+        // Show ladder
+        revealedLadder.classList.remove('hidden');
+        renderLadder();
+    }
 }
 
 // Add enter key support for manual input
@@ -159,11 +173,18 @@ function initSocket() {
     socket.on('game-started', (data) => {
         revealedSetup.classList.add('hidden');
 
-        // Always show ladder view
+        // Show ladder view
         if (data.assignments) {
             showLadder(data.assignments);
         }
         revealedLadder.classList.remove('hidden');
+
+        // Check if hide order was enabled
+        const hideOrderToggle = document.getElementById('hide-order-toggle');
+        if (hideOrderToggle && hideOrderToggle.checked) {
+            document.getElementById('show-order-toggle').checked = false;
+            document.querySelector('.ladder-container').style.display = 'none';
+        }
     });
 
     socket.on('start-error', (message) => {
@@ -325,4 +346,70 @@ function confirmRemove() {
 
 function restart() {
     window.location.href = 'index.html';
+}
+
+// Mystery mode functions
+function showMysteryReveal() {
+    const mysteryReveal = document.getElementById('mystery-reveal');
+    mysteryReveal.classList.remove('hidden');
+    document.getElementById('mystery-total-players').textContent = currentAssignments.length;
+    showMysteryCurrentPerson();
+}
+
+function showMysteryCurrentPerson() {
+    const person = currentAssignments[mysteryCurrentIndex];
+
+    document.getElementById('mystery-current-number').textContent = person.number;
+    document.getElementById('mystery-current-name').textContent = person.name;
+    document.getElementById('mystery-current-index').textContent = mysteryCurrentIndex + 1;
+
+    const card = document.querySelector('#mystery-reveal .reveal-card');
+    if (card) {
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = 'fadeIn 0.5s ease-out';
+    }
+
+    const nextBtn = document.getElementById('mystery-next-btn');
+    const restartBtn = document.getElementById('mystery-restart-btn');
+
+    if (mysteryCurrentIndex >= currentAssignments.length - 1) {
+        nextBtn.classList.add('hidden');
+        restartBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        restartBtn.classList.add('hidden');
+    }
+}
+
+function mysteryNextPerson() {
+    if (mysteryCurrentIndex < currentAssignments.length - 1) {
+        mysteryCurrentIndex++;
+        showMysteryCurrentPerson();
+    }
+}
+
+// Help modal functions
+function showMysteryModeHelp() {
+    document.getElementById('mystery-help-modal').classList.remove('hidden');
+}
+
+function showHideOrderHelp() {
+    document.getElementById('hide-order-help-modal').classList.remove('hidden');
+}
+
+function hideHelpModal(modalId) {
+    document.getElementById(modalId).classList.add('hidden');
+}
+
+// Toggle order visibility on ladder
+function toggleOrderVisibility() {
+    const showOrderToggle = document.getElementById('show-order-toggle');
+    const ladderContainer = document.querySelector('.ladder-container');
+
+    if (showOrderToggle.checked) {
+        ladderContainer.style.display = 'block';
+    } else {
+        ladderContainer.style.display = 'none';
+    }
 }

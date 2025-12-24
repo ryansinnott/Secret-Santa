@@ -95,7 +95,47 @@ h3 {
     transform: scale(1.1);
 }
 
-/* Mode Selection Cards */
+/* Home Page Buttons */
+.home-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.home-btn {
+    display: block;
+    padding: 20px 30px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    text-align: center;
+}
+
+.create-btn {
+    background: #c41e3a;
+    color: white;
+}
+
+.create-btn:hover {
+    background: #a01830;
+    transform: scale(1.02);
+}
+
+.join-btn {
+    background: #1a472a;
+    color: white;
+}
+
+.join-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.02);
+}
+
+/* Mode Selection Cards (legacy - kept for compatibility) */
 .mode-cards {
     display: flex;
     flex-direction: column;
@@ -989,6 +1029,103 @@ h3 {
 
 .confirm-btn.danger:hover {
     background: #a01830;
+}
+
+/* Option Toggle with Help Icon */
+.option-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.toggle-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.toggle-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #1a472a;
+    cursor: pointer;
+}
+
+.toggle-checkbox span {
+    user-select: none;
+}
+
+.help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #ddd;
+    color: #666;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.help-icon:hover {
+    background: #1a472a;
+    color: white;
+}
+
+/* Help Modal */
+.help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.help-modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    max-width: 350px;
+    width: 90%;
+    text-align: center;
+}
+
+.help-modal-content h3 {
+    color: #1a472a;
+    margin-bottom: 15px;
+}
+
+.help-modal-content p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.help-modal-content button {
+    padding: 10px 25px;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.help-modal-content button:hover {
+    background: #2d5a3f;
 }
 
 /* LinkedIn Link */

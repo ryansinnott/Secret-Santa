@@ -33,6 +33,7 @@ const entryMethodCards = document.querySelector('.entry-method-cards');
 const qrMode = document.getElementById('qr-mode');
 const manualMode = document.getElementById('manual-mode');
 const backToMethods = document.getElementById('back-to-methods');
+const backToHome = document.getElementById('back-to-home');
 const manualNameInput = document.getElementById('manual-name-input');
 const manualPlayerList = document.getElementById('manual-player-list');
 const manualPlayerCount = document.getElementById('manual-player-count');
@@ -41,12 +42,14 @@ const manualStartBtn = document.getElementById('manual-start-btn');
 // Entry method selection
 function showQRMode() {
     entryMethodCards.classList.add('hidden');
+    backToHome.classList.add('hidden');
     qrMode.classList.remove('hidden');
     backToMethods.classList.remove('hidden');
 }
 
 function showManualMode() {
     entryMethodCards.classList.add('hidden');
+    backToHome.classList.add('hidden');
     manualMode.classList.remove('hidden');
     backToMethods.classList.remove('hidden');
     manualNameInput.focus();
@@ -54,6 +57,7 @@ function showManualMode() {
 
 function showMethodSelection() {
     entryMethodCards.classList.remove('hidden');
+    backToHome.classList.remove('hidden');
     qrMode.classList.add('hidden');
     manualMode.classList.add('hidden');
     backToMethods.classList.add('hidden');

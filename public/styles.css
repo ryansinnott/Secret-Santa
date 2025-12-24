@@ -183,6 +183,7 @@ h3 {
 
 /* Back Link */
 .back-link {
+    display: block;
     background: none;
     border: none;
     color: #666;
@@ -191,6 +192,8 @@ h3 {
     padding: 10px;
     margin-top: 15px;
     transition: color 0.3s;
+    text-decoration: none;
+    text-align: center;
 }
 
 .back-link:hover {

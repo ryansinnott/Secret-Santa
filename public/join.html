@@ -56,7 +56,18 @@
         </div>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="join.js"></script>
+    <script>
+        // Dynamically load socket.io from the correct path
+        const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+        const script = document.createElement('script');
+        script.src = basePath + '/socket.io/socket.io.js';
+        script.onload = function() {
+            // Load join.js after socket.io is ready
+            const joinScript = document.createElement('script');
+            joinScript.src = 'join.js';
+            document.body.appendChild(joinScript);
+        };
+        document.body.appendChild(script);
+    </script>
 </body>
 </html>

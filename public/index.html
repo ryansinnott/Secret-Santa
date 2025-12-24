@@ -116,7 +116,18 @@
         </div>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="app.js"></script>
+    <script>
+        // Dynamically load socket.io from the correct path
+        const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+        const script = document.createElement('script');
+        script.src = basePath + '/socket.io/socket.io.js';
+        script.onload = function() {
+            // Load app.js after socket.io is ready
+            const appScript = document.createElement('script');
+            appScript.src = 'app.js';
+            document.body.appendChild(appScript);
+        };
+        document.body.appendChild(script);
+    </script>
 </body>
 </html>

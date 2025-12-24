@@ -1128,19 +1128,18 @@ h3 {
     background: #2d5a3f;
 }
 
-/* LinkedIn Link */
-.linkedin-link {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    color: rgba(255, 255, 255, 0.7);
+/* Follow Link */
+.follow-link {
+    display: block;
+    margin-top: 20px;
+    color: #666;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     transition: color 0.3s;
 }
 
-.linkedin-link:hover {
-    color: white;
+.follow-link:hover {
+    color: #1a472a;
 }
 
 /* Responsive adjustments */

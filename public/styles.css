@@ -103,6 +103,7 @@ h3 {
 }
 
 .mode-card {
+    display: block;
     background: #f9f9f9;
     border: 2px solid #ddd;
     border-radius: 15px;
@@ -110,6 +111,8 @@ h3 {
     cursor: pointer;
     transition: all 0.3s;
     text-align: left;
+    text-decoration: none;
+    color: inherit;
 }
 
 .mode-card:hover {

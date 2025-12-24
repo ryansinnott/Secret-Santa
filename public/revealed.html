@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revealed Mode - Silly Santa</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎅</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎅 Silly Santa 🎄</h1>
+
+        <!-- Host Setup -->
+        <div id="revealed-setup" class="game-section">
+            <a href="index.html" class="back-btn-bubble">←</a>
+            <h2>Create Game Room</h2>
+
+            <!-- Number Display Toggle -->
+            <div class="toggle-option">
+                <span class="toggle-label">Show numbers to everyone?</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="public-numbers" onchange="togglePublicNumbers()">
+                    <label for="public-numbers"></label>
+                </div>
+            </div>
+
+            <button id="create-room-btn" onclick="createRoom()">
+                📱 Generate QR Code
+            </button>
+
+            <div id="room-info" class="hidden">
+                <div class="qr-container">
+                    <img id="qr-code" src="" alt="QR Code">
+                </div>
+
+                <div class="room-code-display">
+                    <span>Room Code:</span>
+                    <strong id="room-code-text">------</strong>
+                </div>
+
+                <div id="waiting-players">
+                    <h3>Players Joined (<span id="joined-count">0</span>)</h3>
+                    <ul id="joined-list"></ul>
+                </div>
+
+                <button id="start-revealed-btn" onclick="startRevealedGame()" disabled>
+                    🎁 Assign Numbers!
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Started (Host View) - Secret -->
+        <div id="revealed-started" class="hidden">
+            <div class="game-started-card">
+                <div class="checkmark">✓</div>
+                <h2>Numbers Assigned!</h2>
+                <p>All <span id="assigned-count">0</span> players have received their numbers on their devices.</p>
+            </div>
+
+            <button onclick="restart()">
+                🔄 Start New Game
+            </button>
+        </div>
+
+        <!-- Game Started (Host View) - Public Ladder -->
+        <div id="revealed-ladder" class="hidden">
+            <h2>🎄 The Order 🎄</h2>
+            <div class="ladder-container">
+                <ol id="ladder-list"></ol>
+            </div>
+
+            <button onclick="restart()">
+                🔄 Start New Game
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set global basePath for subpath hosting support
+        window.basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+
+        // Dynamically load socket.io from the correct path
+        var script = document.createElement('script');
+        script.src = window.basePath + '/socket.io/socket.io.js';
+        script.onload = function() {
+            // Load revealed.js after socket.io is ready
+            var appScript = document.createElement('script');
+            appScript.src = 'revealed.js';
+            document.body.appendChild(appScript);
+        };
+        document.body.appendChild(script);
+    </script>
+</body>
+</html>

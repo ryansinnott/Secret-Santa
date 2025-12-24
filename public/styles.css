@@ -849,6 +849,21 @@ h3 {
     background: #a01830;
 }
 
+/* LinkedIn Link */
+.linkedin-link {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+}
+
+.linkedin-link:hover {
+    color: white;
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .container {

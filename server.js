@@ -174,6 +174,36 @@ io.on('connection', (socket) => {
         io.to(code).emit('player-list', room.players);
     });
 
+    // Host adds a manual player (for QR mode)
+    socket.on('add-manual-player', ({ roomCode, playerName }) => {
+        const code = roomCode.toUpperCase();
+        const room = rooms.get(code);
+
+        if (!room) {
+            return;
+        }
+
+        if (room.started) {
+            return;
+        }
+
+        // Check for duplicate names
+        if (room.players.some(p => p.name.toLowerCase() === playerName.toLowerCase())) {
+            return;
+        }
+
+        // Add manual player (no socket id, they won't receive their number on a device)
+        const player = {
+            id: 'manual-' + Date.now(),
+            name: playerName,
+            isManual: true
+        };
+        room.players.push(player);
+
+        // Notify host of updated player list
+        io.to(code).emit('player-list', room.players);
+    });
+
     // Host starts the game
     socket.on('start-game', (data) => {
         // Support both old format (string) and new format (object)

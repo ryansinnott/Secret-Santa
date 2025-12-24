@@ -320,6 +320,45 @@ h3 {
     border-color: #1a472a;
 }
 
+/* QR Add Player */
+.qr-add-player {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.qr-add-player .input-group {
+    margin-bottom: 0;
+}
+
+#qr-manual-name {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#qr-manual-name:focus {
+    border-color: #1a472a;
+}
+
+.qr-add-player button {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.qr-add-player button:hover {
+    background: #2d5a3f;
+}
+
 /* Join Game Link Button */
 .join-link-btn {
     display: block;

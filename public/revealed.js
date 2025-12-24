@@ -242,6 +242,35 @@ function startRevealedGame() {
     socket.emit('start-game', { roomCode: currentRoomCode, publicNumbers: true });
 }
 
+// Add a player manually in QR code mode
+function addQRManualPlayer() {
+    const nameInput = document.getElementById('qr-manual-name');
+    const name = nameInput.value.trim();
+
+    if (!name) return;
+    if (!currentRoomCode) {
+        alert('Please generate a QR code first');
+        return;
+    }
+
+    // Emit to server to add manual player
+    socket.emit('add-manual-player', { roomCode: currentRoomCode, playerName: name });
+    nameInput.value = '';
+    nameInput.focus();
+}
+
+// Add enter key support for QR manual input
+document.addEventListener('DOMContentLoaded', function() {
+    const qrManualInput = document.getElementById('qr-manual-name');
+    if (qrManualInput) {
+        qrManualInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addQRManualPlayer();
+            }
+        });
+    }
+});
+
 // Show the ladder with all assignments
 function showLadder(assignments) {
     currentAssignments = assignments;

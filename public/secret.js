@@ -55,10 +55,17 @@ function updatePlayerList() {
 
     players.forEach((name, index) => {
         const li = document.createElement('li');
-        li.innerHTML = `
-            <span>${name}</span>
-            <button class="remove-btn" onclick="removeName(${index})">×</button>
-        `;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => removeName(index);
+
+        li.appendChild(nameSpan);
+        li.appendChild(removeBtn);
         playerList.appendChild(li);
     });
 

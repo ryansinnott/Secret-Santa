@@ -83,7 +83,9 @@ function updateJoinedList(players) {
 
     players.forEach((player, index) => {
         const li = document.createElement('li');
-        li.innerHTML = `<span>${index + 1}. ${player.name}</span>`;
+        const span = document.createElement('span');
+        span.textContent = `${index + 1}. ${player.name}`;
+        li.appendChild(span);
         joinedList.appendChild(li);
     });
 
@@ -110,11 +112,23 @@ function renderLadder() {
     currentAssignments.forEach((assignment, index) => {
         const li = document.createElement('li');
         li.style.animationDelay = `${index * 0.1}s`;
-        li.innerHTML = `
-            <span class="ladder-number">${index + 1}</span>
-            <span class="ladder-name">${assignment.name}</span>
-            <button class="ladder-remove-btn" onclick="showConfirmRemove(${index}, '${assignment.name.replace(/'/g, "\\'")}')">✕</button>
-        `;
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'ladder-number';
+        numberSpan.textContent = index + 1;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'ladder-name';
+        nameSpan.textContent = assignment.name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'ladder-remove-btn';
+        removeBtn.textContent = '✕';
+        removeBtn.onclick = () => showConfirmRemove(index, assignment.name);
+
+        li.appendChild(numberSpan);
+        li.appendChild(nameSpan);
+        li.appendChild(removeBtn);
         ladderList.appendChild(li);
     });
 }

@@ -62,9 +62,23 @@ app.get(BASE_PATH + '/api/create-room', async (req, res) => {
         assignments: null
     });
 
-    // Generate QR code - use BASE_URL if set, otherwise construct from request
-    const baseUrl = BASE_URL || `${req.protocol}://${req.get('host')}${BASE_PATH}`;
+    // Generate QR code URL
+    // Priority: BASE_URL env var > Referer header > constructed from request
+    let baseUrl;
+    if (BASE_URL) {
+        baseUrl = BASE_URL;
+    } else {
+        // Try to get the base URL from the Referer header (most reliable for subpath hosting)
+        const referer = req.get('referer');
+        if (referer) {
+            // Extract base URL from referer (remove filename if present)
+            baseUrl = referer.replace(/\/[^/]*\.[^/]*$/, '').replace(/\/$/, '');
+        } else {
+            baseUrl = `${req.protocol}://${req.get('host')}${BASE_PATH}`;
+        }
+    }
     const joinUrl = `${baseUrl}/join.html?room=${code}`;
+    console.log('Generated join URL:', joinUrl);
 
     try {
         const qrCodeDataUrl = await QRCode.toDataURL(joinUrl, {

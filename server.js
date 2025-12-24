@@ -20,6 +20,9 @@ const io = new Server(server, {
     path: BASE_PATH + '/socket.io'
 });
 
+// Parse JSON bodies
+app.use(express.json());
+
 // Serve static files from public folder
 app.use(BASE_PATH, express.static(path.join(__dirname, 'public')));
 
@@ -115,6 +118,44 @@ app.get(BASE_PATH + '/api/room/:code', (req, res) => {
     } else {
         res.json({ exists: false });
     }
+});
+
+// API endpoint to create a manual room (with pre-assigned numbers)
+app.post(BASE_PATH + '/api/create-manual-room', (req, res) => {
+    const { assignments } = req.body;
+
+    if (!assignments || !Array.isArray(assignments) || assignments.length < 2) {
+        res.status(400).json({ success: false, error: 'Invalid assignments' });
+        return;
+    }
+
+    let code = generateRoomCode();
+
+    // Make sure code is unique
+    while (rooms.has(code)) {
+        code = generateRoomCode();
+    }
+
+    // Create players from assignments (all manual initially)
+    const players = assignments.map((a, index) => ({
+        id: 'manual-' + Date.now() + '-' + index,
+        name: a.name,
+        isManual: true
+    }));
+
+    // Create the room with assignments already set
+    rooms.set(code, {
+        players: players,
+        started: true,
+        assignments: assignments.map((a, index) => ({
+            id: players[index].id,
+            name: a.name,
+            number: a.number
+        })),
+        createdAt: Date.now()
+    });
+
+    res.json({ success: true, code: code });
 });
 
 // Socket.IO connection handling

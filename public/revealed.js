@@ -86,7 +86,8 @@ function addManualName() {
 
     if (name === '') return;
 
-    if (manualPlayers.includes(name)) {
+    // Case-insensitive duplicate check
+    if (manualPlayers.some(p => p.toLowerCase() === name.toLowerCase())) {
         alert('This name is already in the list!');
         return;
     }
@@ -134,7 +135,7 @@ function shuffle(array) {
     return shuffled;
 }
 
-function startManualGame() {
+async function startManualGame() {
     if (manualPlayers.length < 2) {
         alert('Please add at least 2 players!');
         return;
@@ -147,10 +148,26 @@ function startManualGame() {
         name: name
     }));
 
-    // Generate a game code for manual games
-    if (!currentRoomCode) {
+    // Create a room on the server so players can join and see their numbers
+    try {
+        const response = await fetch(basePath + '/api/create-manual-room', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ assignments: currentAssignments })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            currentRoomCode = data.code;
+        } else {
+            // Fallback to local code if server fails
+            currentRoomCode = generateGameCode();
+        }
+    } catch (error) {
+        // Fallback to local code if server fails
         currentRoomCode = generateGameCode();
     }
+
     gameCodeText.textContent = currentRoomCode;
 
     revealedSetup.classList.add('hidden');
@@ -346,6 +363,12 @@ function addParticipant() {
 
     if (!name) {
         alert('Please enter a name');
+        return;
+    }
+
+    // Case-insensitive duplicate check
+    if (currentAssignments.some(a => a.name.toLowerCase() === name.toLowerCase())) {
+        alert('This name is already in the list!');
         return;
     }
 

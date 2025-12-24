@@ -4,6 +4,9 @@ let socket = null;
 // Current room code (for revealed mode)
 let currentRoomCode = null;
 
+// Whether to show numbers publicly (ladder view)
+let publicNumbers = false;
+
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
@@ -32,6 +35,7 @@ const restartBtn = document.getElementById('restart-btn');
 // DOM Elements - Revealed Mode
 const revealedSetup = document.getElementById('revealed-setup');
 const revealedStarted = document.getElementById('revealed-started');
+const revealedLadder = document.getElementById('revealed-ladder');
 const createRoomBtn = document.getElementById('create-room-btn');
 const roomInfo = document.getElementById('room-info');
 const qrCode = document.getElementById('qr-code');
@@ -40,6 +44,8 @@ const joinedCount = document.getElementById('joined-count');
 const joinedList = document.getElementById('joined-list');
 const startRevealedBtn = document.getElementById('start-revealed-btn');
 const assignedCount = document.getElementById('assigned-count');
+const publicNumbersToggle = document.getElementById('public-numbers');
+const ladderList = document.getElementById('ladder-list');
 
 // ==========================================
 // MODE SELECTION
@@ -63,12 +69,15 @@ function goBack() {
     secretReveal.classList.add('hidden');
     revealedSetup.classList.add('hidden');
     revealedStarted.classList.add('hidden');
+    revealedLadder.classList.add('hidden');
 
     // Reset data
     players = [];
     assignments = [];
     currentIndex = 0;
     currentRoomCode = null;
+    publicNumbers = false;
+    if (publicNumbersToggle) publicNumbersToggle.checked = false;
     updatePlayerList();
 
     // Reset room info
@@ -83,6 +92,11 @@ function goBack() {
         socket.disconnect();
         socket = null;
     }
+}
+
+// Toggle public numbers setting
+function togglePublicNumbers() {
+    publicNumbers = publicNumbersToggle.checked;
 }
 
 // ==========================================
@@ -199,6 +213,8 @@ function restart() {
     assignments = [];
     currentIndex = 0;
     currentRoomCode = null;
+    publicNumbers = false;
+    if (publicNumbersToggle) publicNumbersToggle.checked = false;
 
     updatePlayerList();
 
@@ -207,6 +223,7 @@ function restart() {
     secretSetup.classList.add('hidden');
     revealedSetup.classList.add('hidden');
     revealedStarted.classList.add('hidden');
+    revealedLadder.classList.add('hidden');
 
     // Reset room info
     roomInfo.classList.add('hidden');
@@ -214,6 +231,7 @@ function restart() {
     joinedList.innerHTML = '';
     joinedCount.textContent = '0';
     startRevealedBtn.disabled = true;
+    ladderList.innerHTML = '';
 
     // Show mode selection
     modeSelection.classList.remove('hidden');
@@ -240,8 +258,16 @@ function initSocket() {
 
     socket.on('game-started', (data) => {
         revealedSetup.classList.add('hidden');
-        revealedStarted.classList.remove('hidden');
-        assignedCount.textContent = data.totalPlayers;
+
+        if (publicNumbers && data.assignments) {
+            // Show ladder view with all assignments
+            showLadder(data.assignments);
+            revealedLadder.classList.remove('hidden');
+        } else {
+            // Show secret confirmation
+            revealedStarted.classList.remove('hidden');
+            assignedCount.textContent = data.totalPlayers;
+        }
     });
 
     socket.on('start-error', (message) => {
@@ -290,5 +316,20 @@ function updateJoinedList(players) {
 function startRevealedGame() {
     if (!currentRoomCode) return;
 
-    socket.emit('start-game', currentRoomCode);
+    socket.emit('start-game', { roomCode: currentRoomCode, publicNumbers: publicNumbers });
+}
+
+// Show the ladder with all assignments
+function showLadder(assignments) {
+    ladderList.innerHTML = '';
+
+    assignments.forEach((assignment, index) => {
+        const li = document.createElement('li');
+        li.style.animationDelay = `${index * 0.1}s`;
+        li.innerHTML = `
+            <span class="ladder-number">${assignment.number}</span>
+            <span class="ladder-name">${assignment.name}</span>
+        `;
+        ladderList.appendChild(li);
+    });
 }

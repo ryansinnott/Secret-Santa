@@ -175,7 +175,11 @@ io.on('connection', (socket) => {
     });
 
     // Host starts the game
-    socket.on('start-game', (roomCode) => {
+    socket.on('start-game', (data) => {
+        // Support both old format (string) and new format (object)
+        const roomCode = typeof data === 'string' ? data : data.roomCode;
+        const publicNumbers = typeof data === 'object' ? data.publicNumbers : false;
+
         const code = roomCode.toUpperCase();
         const room = rooms.get(code);
 
@@ -194,10 +198,21 @@ io.on('connection', (socket) => {
             number: index + 1
         }));
 
-        // Notify host that game started
-        socket.emit('game-started', {
+        // Prepare response for host
+        const gameStartedData = {
             totalPlayers: room.players.length
-        });
+        };
+
+        // If public numbers, include assignments for ladder display
+        if (publicNumbers) {
+            gameStartedData.assignments = room.assignments.map(a => ({
+                number: a.number,
+                name: a.name
+            }));
+        }
+
+        // Notify host that game started
+        socket.emit('game-started', gameStartedData);
 
         // Send each player their number privately
         room.assignments.forEach(assignment => {

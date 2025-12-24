@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silly Santa Number Draw</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎅</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -32,8 +33,8 @@
         </div>
 
         <!-- SECRET MODE: Setup Phase -->
-        <div id="secret-setup" class="hidden">
-            <button class="back-btn" onclick="goBack()">← Back</button>
+        <div id="secret-setup" class="hidden game-section">
+            <button class="back-btn-bubble" onclick="goBack()">←</button>
             <h2>Enter Player Names</h2>
             <div class="input-group">
                 <input type="text" id="name-input" placeholder="Enter a name" autocomplete="off">
@@ -75,9 +76,18 @@
         </div>
 
         <!-- REVEALED MODE: Host Setup -->
-        <div id="revealed-setup" class="hidden">
-            <button class="back-btn" onclick="goBack()">← Back</button>
+        <div id="revealed-setup" class="hidden game-section">
+            <button class="back-btn-bubble" onclick="goBack()">←</button>
             <h2>Create Game Room</h2>
+
+            <!-- Number Display Toggle -->
+            <div class="toggle-option">
+                <span class="toggle-label">Show numbers to everyone?</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="public-numbers" onchange="togglePublicNumbers()">
+                    <label for="public-numbers"></label>
+                </div>
+            </div>
 
             <button id="create-room-btn" onclick="createRoom()">
                 📱 Generate QR Code
@@ -104,12 +114,24 @@
             </div>
         </div>
 
-        <!-- REVEALED MODE: Game Started (Host View) -->
+        <!-- REVEALED MODE: Game Started (Host View) - Secret -->
         <div id="revealed-started" class="hidden">
             <div class="game-started-card">
                 <div class="checkmark">✓</div>
                 <h2>Numbers Assigned!</h2>
                 <p>All <span id="assigned-count">0</span> players have received their numbers on their devices.</p>
+            </div>
+
+            <button onclick="restart()">
+                🔄 Start New Game
+            </button>
+        </div>
+
+        <!-- REVEALED MODE: Game Started (Host View) - Public Ladder -->
+        <div id="revealed-ladder" class="hidden">
+            <h2>🎄 The Order 🎄</h2>
+            <div class="ladder-container">
+                <ol id="ladder-list"></ol>
             </div>
 
             <button onclick="restart()">

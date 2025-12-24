@@ -48,7 +48,7 @@ h3 {
     display: none !important;
 }
 
-/* Back Button */
+/* Back Button - Old style (kept for compatibility) */
 .back-btn {
     background: none;
     border: none;
@@ -63,6 +63,36 @@ h3 {
 
 .back-btn:hover {
     color: #333;
+}
+
+/* Game Section with Back Button Bubble */
+.game-section {
+    position: relative;
+}
+
+.back-btn-bubble {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 40px;
+    height: 40px;
+    background: #c41e3a;
+    color: white;
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, transform 0.2s;
+    z-index: 10;
+}
+
+.back-btn-bubble:hover {
+    background: #a01830;
+    transform: scale(1.1);
 }
 
 /* Mode Selection Cards */
@@ -522,6 +552,126 @@ h3 {
 #player-list::-webkit-scrollbar-thumb:hover,
 #joined-list::-webkit-scrollbar-thumb:hover {
     background: #2d5a3f;
+}
+
+/* Toggle Switch */
+.toggle-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+.toggle-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ccc;
+    border-radius: 26px;
+    transition: background 0.3s;
+}
+
+.toggle-switch label::before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.toggle-switch input:checked + label {
+    background: #1a472a;
+}
+
+.toggle-switch input:checked + label::before {
+    transform: translateX(24px);
+}
+
+/* Ladder Container */
+.ladder-container {
+    background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+#ladder-list {
+    list-style: none;
+    counter-reset: ladder;
+}
+
+#ladder-list li {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease-out;
+}
+
+#ladder-list li:last-child {
+    margin-bottom: 0;
+}
+
+#ladder-list li .ladder-number {
+    background: #c41e3a;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+#ladder-list li .ladder-name {
+    flex: 1;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 /* Responsive adjustments */

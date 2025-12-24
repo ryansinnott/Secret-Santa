@@ -4,15 +4,11 @@ let socket = null;
 // Current room code
 let currentRoomCode = null;
 
-// Whether to show numbers publicly (ladder view)
-let publicNumbers = false;
-
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
 // DOM Elements
 const revealedSetup = document.getElementById('revealed-setup');
-const revealedStarted = document.getElementById('revealed-started');
 const revealedLadder = document.getElementById('revealed-ladder');
 const createRoomBtn = document.getElementById('create-room-btn');
 const roomInfo = document.getElementById('room-info');
@@ -21,8 +17,6 @@ const roomCodeText = document.getElementById('room-code-text');
 const joinedCount = document.getElementById('joined-count');
 const joinedList = document.getElementById('joined-list');
 const startRevealedBtn = document.getElementById('start-revealed-btn');
-const assignedCount = document.getElementById('assigned-count');
-const publicNumbersToggle = document.getElementById('public-numbers');
 const ladderList = document.getElementById('ladder-list');
 
 // Initialize socket connection
@@ -38,25 +32,16 @@ function initSocket() {
     socket.on('game-started', (data) => {
         revealedSetup.classList.add('hidden');
 
-        if (publicNumbers && data.assignments) {
-            // Show ladder view with all assignments
+        // Always show ladder view
+        if (data.assignments) {
             showLadder(data.assignments);
-            revealedLadder.classList.remove('hidden');
-        } else {
-            // Show secret confirmation
-            revealedStarted.classList.remove('hidden');
-            assignedCount.textContent = data.totalPlayers;
         }
+        revealedLadder.classList.remove('hidden');
     });
 
     socket.on('start-error', (message) => {
         alert(message);
     });
-}
-
-// Toggle public numbers setting
-function togglePublicNumbers() {
-    publicNumbers = publicNumbersToggle.checked;
 }
 
 async function createRoom() {
@@ -103,7 +88,8 @@ function updateJoinedList(players) {
 function startRevealedGame() {
     if (!currentRoomCode) return;
 
-    socket.emit('start-game', { roomCode: currentRoomCode, publicNumbers: publicNumbers });
+    // Always request public numbers for ladder display
+    socket.emit('start-game', { roomCode: currentRoomCode, publicNumbers: true });
 }
 
 // Show the ladder with all assignments

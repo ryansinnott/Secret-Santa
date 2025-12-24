@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revealed Mode - Silly Santa</title>
+    <title>Traditional Mode - Silly Santa</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎅</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -14,15 +14,6 @@
         <!-- Host Setup -->
         <div id="revealed-setup">
             <h2>Create Game Room</h2>
-
-            <!-- Number Display Toggle -->
-            <div class="toggle-option">
-                <span class="toggle-label">Show numbers to everyone?</span>
-                <div class="toggle-switch">
-                    <input type="checkbox" id="public-numbers" onchange="togglePublicNumbers()">
-                    <label for="public-numbers"></label>
-                </div>
-            </div>
 
             <button id="create-room-btn" onclick="createRoom()">
                 📱 Generate QR Code
@@ -49,20 +40,7 @@
             </div>
         </div>
 
-        <!-- Game Started (Host View) - Secret -->
-        <div id="revealed-started" class="hidden">
-            <div class="game-started-card">
-                <div class="checkmark">✓</div>
-                <h2>Numbers Assigned!</h2>
-                <p>All <span id="assigned-count">0</span> players have received their numbers on their devices.</p>
-            </div>
-
-            <button onclick="restart()">
-                🔄 Start New Game
-            </button>
-        </div>
-
-        <!-- Game Started (Host View) - Public Ladder -->
+        <!-- Game Started (Host View) - Ladder -->
         <div id="revealed-ladder" class="hidden">
             <h2>🎄 The Order 🎄</h2>
             <div class="ladder-container">

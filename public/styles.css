@@ -138,6 +138,145 @@ h3 {
     line-height: 1.4;
 }
 
+/* Entry Method Cards */
+.entry-method-cards {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.entry-method-card {
+    flex: 1;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 20px 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.entry-method-card:hover {
+    border-color: #1a472a;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.entry-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.entry-method-card h3 {
+    color: #1a472a;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.entry-method-card p {
+    color: #666;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    margin: 0;
+}
+
+/* Back Link */
+.back-link {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 10px;
+    margin-top: 15px;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: #333;
+}
+
+/* Manual Names List */
+#manual-names-list {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+#manual-player-list {
+    list-style: none;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#manual-player-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: white;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#manual-add-btn {
+    padding: 15px 25px;
+    font-size: 1rem;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#manual-add-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.05);
+}
+
+#manual-start-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+    background: #c41e3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+#manual-start-btn:hover:not(:disabled) {
+    background: #a01830;
+    transform: scale(1.02);
+}
+
+#manual-start-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+#manual-name-input {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#manual-name-input:focus {
+    border-color: #1a472a;
+}
+
 /* Join Game Link Button */
 .join-link-btn {
     display: block;

@@ -10,6 +10,9 @@ let currentAssignments = [];
 // Index of participant to remove
 let removeIndex = null;
 
+// Manual entry players list
+let manualPlayers = [];
+
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
@@ -24,6 +27,120 @@ const joinedCount = document.getElementById('joined-count');
 const joinedList = document.getElementById('joined-list');
 const startRevealedBtn = document.getElementById('start-revealed-btn');
 const ladderList = document.getElementById('ladder-list');
+
+// Manual entry elements
+const entryMethodCards = document.querySelector('.entry-method-cards');
+const qrMode = document.getElementById('qr-mode');
+const manualMode = document.getElementById('manual-mode');
+const backToMethods = document.getElementById('back-to-methods');
+const manualNameInput = document.getElementById('manual-name-input');
+const manualPlayerList = document.getElementById('manual-player-list');
+const manualPlayerCount = document.getElementById('manual-player-count');
+const manualStartBtn = document.getElementById('manual-start-btn');
+
+// Entry method selection
+function showQRMode() {
+    entryMethodCards.classList.add('hidden');
+    qrMode.classList.remove('hidden');
+    backToMethods.classList.remove('hidden');
+}
+
+function showManualMode() {
+    entryMethodCards.classList.add('hidden');
+    manualMode.classList.remove('hidden');
+    backToMethods.classList.remove('hidden');
+    manualNameInput.focus();
+}
+
+function showMethodSelection() {
+    entryMethodCards.classList.remove('hidden');
+    qrMode.classList.add('hidden');
+    manualMode.classList.add('hidden');
+    backToMethods.classList.add('hidden');
+}
+
+// Manual entry functions
+function addManualName() {
+    const name = manualNameInput.value.trim();
+
+    if (name === '') return;
+
+    if (manualPlayers.includes(name)) {
+        alert('This name is already in the list!');
+        return;
+    }
+
+    manualPlayers.push(name);
+    updateManualPlayerList();
+    manualNameInput.value = '';
+    manualNameInput.focus();
+}
+
+function removeManualName(index) {
+    manualPlayers.splice(index, 1);
+    updateManualPlayerList();
+}
+
+function updateManualPlayerList() {
+    manualPlayerList.innerHTML = '';
+
+    manualPlayers.forEach((name, index) => {
+        const li = document.createElement('li');
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = name;
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = () => removeManualName(index);
+
+        li.appendChild(nameSpan);
+        li.appendChild(removeBtn);
+        manualPlayerList.appendChild(li);
+    });
+
+    manualPlayerCount.textContent = manualPlayers.length;
+    manualStartBtn.disabled = manualPlayers.length < 2;
+}
+
+function shuffle(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+}
+
+function startManualGame() {
+    if (manualPlayers.length < 2) {
+        alert('Please add at least 2 players!');
+        return;
+    }
+
+    const shuffledPlayers = shuffle(manualPlayers);
+
+    currentAssignments = shuffledPlayers.map((name, index) => ({
+        number: index + 1,
+        name: name
+    }));
+
+    revealedSetup.classList.add('hidden');
+    revealedLadder.classList.remove('hidden');
+    renderLadder();
+}
+
+// Add enter key support for manual input
+document.addEventListener('DOMContentLoaded', function() {
+    if (manualNameInput) {
+        manualNameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addManualName();
+            }
+        });
+    }
+});
 
 // Initialize socket connection
 function initSocket() {

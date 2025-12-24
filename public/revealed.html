@@ -13,31 +13,69 @@
 
         <!-- Host Setup -->
         <div id="revealed-setup">
-            <h2>Create Game Room</h2>
+            <h2>Choose Entry Method</h2>
 
-            <button id="create-room-btn" onclick="createRoom()">
-                📱 Generate QR Code
-            </button>
+            <div class="entry-method-cards">
+                <button class="entry-method-card" onclick="showQRMode()">
+                    <div class="entry-icon">📱</div>
+                    <h3>QR Code</h3>
+                    <p>Players scan to join on their phones</p>
+                </button>
 
-            <div id="room-info" class="hidden">
-                <div class="qr-container">
-                    <img id="qr-code" src="" alt="QR Code">
+                <button class="entry-method-card" onclick="showManualMode()">
+                    <div class="entry-icon">✏️</div>
+                    <h3>Manual Entry</h3>
+                    <p>Enter names yourself on this device</p>
+                </button>
+            </div>
+
+            <!-- QR Code Mode -->
+            <div id="qr-mode" class="hidden">
+                <button id="create-room-btn" onclick="createRoom()">
+                    📱 Generate QR Code
+                </button>
+
+                <div id="room-info" class="hidden">
+                    <div class="qr-container">
+                        <img id="qr-code" src="" alt="QR Code">
+                    </div>
+
+                    <div class="room-code-display">
+                        <span>Room Code:</span>
+                        <strong id="room-code-text">------</strong>
+                    </div>
+
+                    <div id="waiting-players">
+                        <h3>Players Joined (<span id="joined-count">0</span>)</h3>
+                        <ul id="joined-list"></ul>
+                    </div>
+
+                    <button id="start-revealed-btn" onclick="startRevealedGame()" disabled>
+                        🎁 Assign Numbers!
+                    </button>
+                </div>
+            </div>
+
+            <!-- Manual Entry Mode -->
+            <div id="manual-mode" class="hidden">
+                <div class="input-group">
+                    <input type="text" id="manual-name-input" placeholder="Enter a name" autocomplete="off">
+                    <button id="manual-add-btn" onclick="addManualName()">Add</button>
                 </div>
 
-                <div class="room-code-display">
-                    <span>Room Code:</span>
-                    <strong id="room-code-text">------</strong>
+                <div id="manual-names-list">
+                    <h3>Players (<span id="manual-player-count">0</span>)</h3>
+                    <ul id="manual-player-list"></ul>
                 </div>
 
-                <div id="waiting-players">
-                    <h3>Players Joined (<span id="joined-count">0</span>)</h3>
-                    <ul id="joined-list"></ul>
-                </div>
-
-                <button id="start-revealed-btn" onclick="startRevealedGame()" disabled>
+                <button id="manual-start-btn" onclick="startManualGame()" disabled>
                     🎁 Assign Numbers!
                 </button>
             </div>
+
+            <button id="back-to-methods" class="back-link hidden" onclick="showMethodSelection()">
+                ← Back to entry methods
+            </button>
         </div>
 
         <!-- Game Started (Host View) - Ladder -->

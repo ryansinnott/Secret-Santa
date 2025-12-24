@@ -47,9 +47,55 @@
                 <ol id="ladder-list"></ol>
             </div>
 
+            <button id="add-participant-btn" onclick="showAddParticipant()">
+                + Add Participant
+            </button>
+
             <button onclick="restart()">
                 🔄 Start New Game
             </button>
+        </div>
+
+        <!-- Add Participant Modal -->
+        <div id="add-participant-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Add Participant</h3>
+                <div class="input-group-vertical">
+                    <label for="new-participant-name">Name</label>
+                    <input type="text" id="new-participant-name" placeholder="Enter name" autocomplete="off">
+                </div>
+                <div class="position-options">
+                    <label class="radio-option">
+                        <input type="radio" name="position" value="random" checked>
+                        <span>Random position</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="position" value="last">
+                        <span>Last position</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="position" value="specific">
+                        <span>Specific position:</span>
+                        <input type="number" id="specific-position" min="1" placeholder="#">
+                    </label>
+                </div>
+                <div class="modal-buttons">
+                    <button onclick="hideAddParticipant()" class="cancel-btn">Cancel</button>
+                    <button onclick="addParticipant()" class="confirm-btn">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirm Remove Modal -->
+        <div id="confirm-remove-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Remove Participant?</h3>
+                <p>Are you sure you want to remove <strong id="remove-name"></strong>? This cannot be undone.</p>
+                <div class="modal-buttons">
+                    <button onclick="hideConfirmRemove()" class="cancel-btn">Cancel</button>
+                    <button onclick="confirmRemove()" class="confirm-btn danger">Remove</button>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -4,6 +4,12 @@ let socket = null;
 // Current room code
 let currentRoomCode = null;
 
+// Current assignments (for managing participants)
+let currentAssignments = [];
+
+// Index of participant to remove
+let removeIndex = null;
+
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
@@ -94,17 +100,92 @@ function startRevealedGame() {
 
 // Show the ladder with all assignments
 function showLadder(assignments) {
+    currentAssignments = assignments;
+    renderLadder();
+}
+
+function renderLadder() {
     ladderList.innerHTML = '';
 
-    assignments.forEach((assignment, index) => {
+    currentAssignments.forEach((assignment, index) => {
         const li = document.createElement('li');
         li.style.animationDelay = `${index * 0.1}s`;
         li.innerHTML = `
-            <span class="ladder-number">${assignment.number}</span>
+            <span class="ladder-number">${index + 1}</span>
             <span class="ladder-name">${assignment.name}</span>
+            <button class="ladder-remove-btn" onclick="showConfirmRemove(${index}, '${assignment.name.replace(/'/g, "\\'")}')">✕</button>
         `;
         ladderList.appendChild(li);
     });
+}
+
+// Show add participant modal
+function showAddParticipant() {
+    document.getElementById('add-participant-modal').classList.remove('hidden');
+    document.getElementById('new-participant-name').value = '';
+    document.getElementById('specific-position').value = '';
+    document.querySelector('input[name="position"][value="random"]').checked = true;
+}
+
+// Hide add participant modal
+function hideAddParticipant() {
+    document.getElementById('add-participant-modal').classList.add('hidden');
+}
+
+// Add a new participant
+function addParticipant() {
+    const nameInput = document.getElementById('new-participant-name');
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert('Please enter a name');
+        return;
+    }
+
+    const positionType = document.querySelector('input[name="position"]:checked').value;
+    let position;
+
+    if (positionType === 'random') {
+        position = Math.floor(Math.random() * (currentAssignments.length + 1));
+    } else if (positionType === 'last') {
+        position = currentAssignments.length;
+    } else {
+        const specificPos = parseInt(document.getElementById('specific-position').value);
+        if (isNaN(specificPos) || specificPos < 1) {
+            alert('Please enter a valid position number');
+            return;
+        }
+        position = Math.min(specificPos - 1, currentAssignments.length);
+    }
+
+    // Insert at position
+    currentAssignments.splice(position, 0, { name: name, number: position + 1 });
+
+    // Re-render
+    renderLadder();
+    hideAddParticipant();
+}
+
+// Show confirm remove modal
+function showConfirmRemove(index, name) {
+    removeIndex = index;
+    document.getElementById('remove-name').textContent = name;
+    document.getElementById('confirm-remove-modal').classList.remove('hidden');
+}
+
+// Hide confirm remove modal
+function hideConfirmRemove() {
+    removeIndex = null;
+    document.getElementById('confirm-remove-modal').classList.add('hidden');
+}
+
+// Confirm and remove participant
+function confirmRemove() {
+    if (removeIndex !== null) {
+        currentAssignments.splice(removeIndex, 1);
+        renderLadder();
+    }
+    hideConfirmRemove();
 }
 
 function restart() {

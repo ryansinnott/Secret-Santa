@@ -666,6 +666,28 @@ h3 {
     flex: 1;
 }
 
+#ladder-list li .ladder-remove-btn {
+    background: #c41e3a;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, transform 0.2s;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+#ladder-list li .ladder-remove-btn:hover {
+    background: #a01830;
+    transform: scale(1.1);
+}
+
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -675,6 +697,156 @@ h3 {
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+/* Add Participant Button */
+#add-participant-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#add-participant-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.02);
+}
+
+/* Modal Styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h3 {
+    color: #1a472a;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.modal-content p {
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.modal-content p strong {
+    color: #333;
+}
+
+/* Radio Options */
+.position-options {
+    margin-bottom: 20px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.radio-option:hover {
+    background: #f0f0f0;
+}
+
+.radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #1a472a;
+}
+
+.radio-option span {
+    color: #333;
+    font-weight: 500;
+}
+
+.radio-option input[type="number"] {
+    width: 60px;
+    padding: 8px 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+.radio-option input[type="number"]:focus {
+    border-color: #1a472a;
+    outline: none;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.cancel-btn {
+    background: #ddd;
+    color: #333;
+}
+
+.cancel-btn:hover {
+    background: #ccc;
+}
+
+.confirm-btn {
+    background: #1a472a;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background: #2d5a3f;
+}
+
+.confirm-btn.danger {
+    background: #c41e3a;
+}
+
+.confirm-btn.danger:hover {
+    background: #a01830;
 }
 
 /* Responsive adjustments */

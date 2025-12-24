@@ -4,6 +4,9 @@ let socket = null;
 // Current room code (for revealed mode)
 let currentRoomCode = null;
 
+// Get the base path for API calls (handles subpath hosting)
+const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+
 // Secret mode data
 let players = [];
 let assignments = [];
@@ -229,7 +232,7 @@ function restart() {
 function initSocket() {
     if (socket) return;
 
-    socket = io();
+    socket = io({ path: basePath + '/socket.io' });
 
     socket.on('player-list', (players) => {
         updateJoinedList(players);
@@ -248,7 +251,7 @@ function initSocket() {
 
 async function createRoom() {
     try {
-        const response = await fetch('/api/create-room');
+        const response = await fetch(basePath + '/api/create-room');
         const data = await response.json();
 
         if (data.success) {

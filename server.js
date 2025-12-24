@@ -6,10 +6,16 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+
+// Base path for hosting at a subpath (e.g., '/projects/secretsanta')
+const BASE_PATH = process.env.BASE_PATH || '';
+
+const io = new Server(server, {
+    path: BASE_PATH + '/socket.io'
+});
 
 // Serve static files from public folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(BASE_PATH, express.static(path.join(__dirname, 'public')));
 
 // Store active game rooms
 const rooms = new Map();
@@ -35,7 +41,7 @@ function shuffle(array) {
 }
 
 // API endpoint to create a new room
-app.get('/api/create-room', async (req, res) => {
+app.get(BASE_PATH + '/api/create-room', async (req, res) => {
     let code = generateRoomCode();
 
     // Make sure code is unique
@@ -51,7 +57,7 @@ app.get('/api/create-room', async (req, res) => {
     });
 
     // Generate QR code
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const baseUrl = `${req.protocol}://${req.get('host')}${BASE_PATH}`;
     const joinUrl = `${baseUrl}/join.html?room=${code}`;
 
     try {
@@ -76,7 +82,7 @@ app.get('/api/create-room', async (req, res) => {
 });
 
 // API endpoint to check if room exists
-app.get('/api/room/:code', (req, res) => {
+app.get(BASE_PATH + '/api/room/:code', (req, res) => {
     const code = req.params.code.toUpperCase();
     const room = rooms.get(code);
 

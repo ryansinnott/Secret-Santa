@@ -1,6 +1,9 @@
 // Socket connection
 let socket = null;
 
+// Get the base path for API calls (handles subpath hosting)
+const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+
 // DOM Elements
 const joinPhase = document.getElementById('join-phase');
 const waitingPhase = document.getElementById('waiting-phase');
@@ -69,7 +72,7 @@ async function joinGame() {
 
     // Check if room exists first
     try {
-        const response = await fetch(`/api/room/${roomCode}`);
+        const response = await fetch(`${basePath}/api/room/${roomCode}`);
         const data = await response.json();
 
         if (!data.exists) {
@@ -87,7 +90,7 @@ async function joinGame() {
     }
 
     // Connect via socket
-    socket = io();
+    socket = io({ path: basePath + '/socket.io' });
 
     socket.on('connect', () => {
         socket.emit('player-join', {

@@ -1,0 +1,526 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 50%, #1a472a 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+h1 {
+    color: #c41e3a;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #1a472a;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+h3 {
+    color: #333;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Back Button */
+.back-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    display: inline-block;
+    transition: color 0.3s;
+}
+
+.back-btn:hover {
+    color: #333;
+}
+
+/* Mode Selection Cards */
+.mode-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mode-card {
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+}
+
+.mode-card:hover {
+    border-color: #1a472a;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.mode-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.mode-card h3 {
+    color: #1a472a;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.mode-card p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Input Groups */
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.input-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group-vertical label {
+    font-weight: 600;
+    color: #333;
+}
+
+#name-input,
+#room-code-input,
+#player-name-input {
+    flex: 1;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#room-code-input {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#name-input:focus,
+#room-code-input:focus,
+#player-name-input:focus {
+    border-color: #1a472a;
+}
+
+#add-btn {
+    padding: 15px 25px;
+    font-size: 1rem;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+#add-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.05);
+}
+
+/* Names List */
+#names-list,
+#waiting-players {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    min-height: 100px;
+}
+
+#player-list,
+#joined-list {
+    list-style: none;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#player-list li,
+#joined-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: white;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#player-list li .remove-btn {
+    background: #c41e3a;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.3s;
+}
+
+#player-list li .remove-btn:hover {
+    background: #a01830;
+}
+
+/* Buttons */
+#start-btn,
+#create-room-btn,
+#start-revealed-btn,
+#join-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+    background: #c41e3a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+#start-btn:hover:not(:disabled),
+#create-room-btn:hover,
+#start-revealed-btn:hover:not(:disabled),
+#join-btn:hover {
+    background: #a01830;
+    transform: scale(1.02);
+}
+
+#start-btn:disabled,
+#start-revealed-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* QR Code Section */
+.qr-container {
+    background: white;
+    border: 3px solid #1a472a;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.qr-container img {
+    display: block;
+    max-width: 250px;
+}
+
+.room-code-display {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.room-code-display strong {
+    display: block;
+    font-size: 2rem;
+    letter-spacing: 5px;
+    color: #1a472a;
+    margin-top: 5px;
+}
+
+/* Reveal Phase Styles */
+.reveal-card {
+    background: linear-gradient(135deg, #c41e3a 0%, #a01830 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.number-badge {
+    background: white;
+    color: #c41e3a;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.number-badge.secret {
+    background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+    color: white;
+    font-size: 1.5rem;
+}
+
+.name-reveal {
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.progress {
+    color: #666;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+#next-btn {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.2rem;
+    background: #1a472a;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+#next-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.02);
+}
+
+#restart-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    background: #666;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 15px;
+}
+
+#restart-btn:hover {
+    background: #555;
+}
+
+/* Game Started Card */
+.game-started-card {
+    background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    background: white;
+    color: #1a472a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 20px;
+}
+
+.game-started-card h2 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.game-started-card p {
+    opacity: 0.9;
+}
+
+/* Join Page Styles */
+.join-form {
+    text-align: left;
+}
+
+.error-message {
+    color: #c41e3a;
+    background: #ffe6e6;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Waiting Card */
+.waiting-card {
+    background: #f9f9f9;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #ddd;
+    border-top-color: #1a472a;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.waiting-card h2 {
+    margin-bottom: 10px;
+}
+
+.waiting-card p {
+    color: #666;
+}
+
+/* Your Number Card */
+.your-number-card {
+    background: linear-gradient(135deg, #c41e3a 0%, #a01830 100%);
+    border-radius: 20px;
+    padding: 40px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.your-number-card h2 {
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.big-number {
+    background: white;
+    color: #c41e3a;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    font-weight: bold;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.number-subtitle {
+    opacity: 0.9;
+}
+
+.secret-message {
+    color: #666;
+    font-style: italic;
+    font-size: 1.1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scrollbar Styling */
+#player-list::-webkit-scrollbar,
+#joined-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+#player-list::-webkit-scrollbar-track,
+#joined-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#player-list::-webkit-scrollbar-thumb,
+#joined-list::-webkit-scrollbar-thumb {
+    background: #1a472a;
+    border-radius: 4px;
+}
+
+#player-list::-webkit-scrollbar-thumb:hover,
+#joined-list::-webkit-scrollbar-thumb:hover {
+    background: #2d5a3f;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .container {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .mode-card {
+        padding: 20px;
+    }
+
+    .big-number {
+        width: 100px;
+        height: 100px;
+        font-size: 3rem;
+    }
+}

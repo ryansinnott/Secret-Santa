@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Silly Santa</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎅 Silly Santa 🎄</h1>
+
+        <!-- Join Phase -->
+        <div id="join-phase">
+            <h2>Join Game</h2>
+
+            <div class="join-form">
+                <div class="input-group-vertical">
+                    <label for="room-code-input">Room Code</label>
+                    <input type="text" id="room-code-input" placeholder="Enter 6-letter code" maxlength="6" autocomplete="off">
+                </div>
+
+                <div class="input-group-vertical">
+                    <label for="player-name-input">Your Name</label>
+                    <input type="text" id="player-name-input" placeholder="Enter your name" autocomplete="off">
+                </div>
+
+                <button id="join-btn" onclick="joinGame()">
+                    🎄 Join Game
+                </button>
+
+                <p id="join-error" class="error-message hidden"></p>
+            </div>
+        </div>
+
+        <!-- Waiting Phase -->
+        <div id="waiting-phase" class="hidden">
+            <div class="waiting-card">
+                <div class="spinner"></div>
+                <h2>Welcome, <span id="player-name-display">Player</span>!</h2>
+                <p>Waiting for the host to start the game...</p>
+            </div>
+        </div>
+
+        <!-- Number Reveal Phase -->
+        <div id="number-phase" class="hidden">
+            <div class="your-number-card">
+                <h2>Your Number Is</h2>
+                <div class="big-number">
+                    <span id="your-number">1</span>
+                </div>
+                <p class="number-subtitle">out of <span id="total-count">0</span> players</p>
+            </div>
+
+            <p class="secret-message">🤫 Keep it secret!</p>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="join.js"></script>
+</body>
+</html>

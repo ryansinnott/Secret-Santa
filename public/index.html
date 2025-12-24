@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silly Santa Number Draw</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎅 Silly Santa 🎄</h1>
+
+        <!-- Mode Selection -->
+        <div id="mode-selection">
+            <h2>Choose Game Mode</h2>
+
+            <div class="mode-cards">
+                <div class="mode-card" onclick="selectMode('secret')">
+                    <div class="mode-icon">🎁</div>
+                    <h3>Secret Mode</h3>
+                    <p>Enter names on one device. Reveal players one by one - no one knows who's next!</p>
+                </div>
+
+                <div class="mode-card" onclick="selectMode('revealed')">
+                    <div class="mode-icon">📱</div>
+                    <h3>Revealed Mode</h3>
+                    <p>Players scan a QR code to join. Everyone gets their number privately on their phone!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECRET MODE: Setup Phase -->
+        <div id="secret-setup" class="hidden">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>Enter Player Names</h2>
+            <div class="input-group">
+                <input type="text" id="name-input" placeholder="Enter a name" autocomplete="off">
+                <button id="add-btn" onclick="addName()">Add</button>
+            </div>
+
+            <div id="names-list">
+                <h3>Players (<span id="player-count">0</span>)</h3>
+                <ul id="player-list"></ul>
+            </div>
+
+            <button id="start-btn" onclick="startSecretGame()" disabled>
+                🎁 Assign Numbers & Start!
+            </button>
+        </div>
+
+        <!-- SECRET MODE: Reveal Phase -->
+        <div id="secret-reveal" class="hidden">
+            <div class="reveal-card">
+                <div class="number-badge">
+                    #<span id="current-number">1</span>
+                </div>
+                <div class="name-reveal">
+                    <span id="current-name">Name</span>
+                </div>
+            </div>
+
+            <p class="progress">
+                <span id="current-index">1</span> of <span id="total-players">0</span>
+            </p>
+
+            <button id="next-btn" onclick="nextPerson()">
+                Next Person ➡️
+            </button>
+
+            <button id="restart-btn" class="hidden" onclick="restart()">
+                🔄 Start Over
+            </button>
+        </div>
+
+        <!-- REVEALED MODE: Host Setup -->
+        <div id="revealed-setup" class="hidden">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>Create Game Room</h2>
+
+            <button id="create-room-btn" onclick="createRoom()">
+                📱 Generate QR Code
+            </button>
+
+            <div id="room-info" class="hidden">
+                <div class="qr-container">
+                    <img id="qr-code" src="" alt="QR Code">
+                </div>
+
+                <div class="room-code-display">
+                    <span>Room Code:</span>
+                    <strong id="room-code-text">------</strong>
+                </div>
+
+                <div id="waiting-players">
+                    <h3>Players Joined (<span id="joined-count">0</span>)</h3>
+                    <ul id="joined-list"></ul>
+                </div>
+
+                <button id="start-revealed-btn" onclick="startRevealedGame()" disabled>
+                    🎁 Assign Numbers!
+                </button>
+            </div>
+        </div>
+
+        <!-- REVEALED MODE: Game Started (Host View) -->
+        <div id="revealed-started" class="hidden">
+            <div class="game-started-card">
+                <div class="checkmark">✓</div>
+                <h2>Numbers Assigned!</h2>
+                <p>All <span id="assigned-count">0</span> players have received their numbers on their devices.</p>
+            </div>
+
+            <button onclick="restart()">
+                🔄 Start New Game
+            </button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

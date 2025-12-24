@@ -1006,11 +1006,16 @@ h3 {
 /* Responsive adjustments */
 @media (max-width: 480px) {
     .container {
-        padding: 25px;
+        padding: 20px 15px;
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 1.3rem;
     }
 
     .mode-card {
@@ -1021,5 +1026,82 @@ h3 {
         width: 100px;
         height: 100px;
         font-size: 3rem;
+    }
+
+    /* Entry method cards stack on mobile */
+    .entry-method-cards {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .entry-method-card {
+        padding: 15px;
+    }
+
+    .entry-icon {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+    }
+
+    .entry-method-card h3 {
+        font-size: 0.95rem;
+    }
+
+    .entry-method-card p {
+        font-size: 0.75rem;
+    }
+
+    /* Input group adjustments */
+    .input-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #manual-add-btn,
+    #add-btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    #manual-name-input,
+    #name-input {
+        width: 100%;
+    }
+
+    /* Smaller buttons */
+    #manual-start-btn,
+    #start-btn,
+    #start-revealed-btn,
+    #create-room-btn {
+        padding: 15px;
+        font-size: 1.1rem;
+    }
+
+    /* Ladder adjustments */
+    .ladder-container {
+        padding: 20px 15px;
+    }
+
+    #ladder-list li {
+        padding: 12px 15px;
+        font-size: 1rem;
+    }
+
+    #ladder-list li .ladder-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+        margin-right: 10px;
+    }
+
+    #add-participant-btn {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    /* Modal adjustments */
+    .modal-content {
+        padding: 20px;
+        width: 95%;
     }
 }

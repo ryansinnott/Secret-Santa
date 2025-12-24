@@ -105,6 +105,26 @@ h3 {
     line-height: 1.4;
 }
 
+/* Join Game Link Button */
+.join-link-btn {
+    display: block;
+    margin-top: 20px;
+    padding: 15px 25px;
+    background: #1a472a;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.join-link-btn:hover {
+    background: #2d5a3f;
+    transform: scale(1.02);
+}
+
 /* Input Groups */
 .input-group {
     display: flex;

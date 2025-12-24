@@ -57,13 +57,15 @@
     </div>
 
     <script>
+        // Set global basePath for subpath hosting support
+        window.basePath = window.location.pathname.replace(/\/[^/]*$/, '');
+
         // Dynamically load socket.io from the correct path
-        const basePath = window.location.pathname.replace(/\/[^/]*$/, '');
-        const script = document.createElement('script');
-        script.src = basePath + '/socket.io/socket.io.js';
+        var script = document.createElement('script');
+        script.src = window.basePath + '/socket.io/socket.io.js';
         script.onload = function() {
             // Load join.js after socket.io is ready
-            const joinScript = document.createElement('script');
+            var joinScript = document.createElement('script');
             joinScript.src = 'join.js';
             document.body.appendChild(joinScript);
         };

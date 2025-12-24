@@ -2,10 +2,7 @@
 let socket = null;
 
 // Get the base path for API calls (handles subpath hosting)
-// basePath may already be defined by the inline script loader
-if (typeof basePath === 'undefined') {
-    var basePath = window.location.pathname.replace(/\/[^/]*$/, '');
-}
+var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
 // DOM Elements
 const joinPhase = document.getElementById('join-phase');

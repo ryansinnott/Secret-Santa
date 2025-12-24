@@ -532,7 +532,8 @@ h3 {
     max-width: 250px;
 }
 
-.room-code-display {
+.room-code-display,
+.game-code-display {
     background: #f9f9f9;
     border-radius: 10px;
     padding: 15px;
@@ -540,12 +541,22 @@ h3 {
     font-size: 1.1rem;
 }
 
-.room-code-display strong {
+.room-code-display strong,
+.game-code-display strong {
     display: block;
     font-size: 2rem;
     letter-spacing: 5px;
     color: #1a472a;
     margin-top: 5px;
+}
+
+.game-code-display {
+    background: #f0f7f0;
+}
+
+.game-code-display span {
+    color: #666;
+    font-size: 0.9rem;
 }
 
 /* Reveal Phase Styles */

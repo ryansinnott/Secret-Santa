@@ -17,6 +17,19 @@ let manualPlayers = [];
 let mysteryCurrentIndex = 0;
 let hideOrderEnabled = false;
 
+// Game code display element
+const gameCodeText = document.getElementById('game-code-text');
+
+// Generate a random 6-character game code for manual games
+function generateGameCode() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+}
+
 // Get the base path for API calls (handles subpath hosting)
 var basePath = window.basePath || window.location.pathname.replace(/\/[^/]*$/, '');
 
@@ -134,6 +147,12 @@ function startManualGame() {
         name: name
     }));
 
+    // Generate a game code for manual games
+    if (!currentRoomCode) {
+        currentRoomCode = generateGameCode();
+    }
+    gameCodeText.textContent = currentRoomCode;
+
     revealedSetup.classList.add('hidden');
 
     // Check if mystery mode is enabled
@@ -172,6 +191,9 @@ function initSocket() {
 
     socket.on('game-started', (data) => {
         revealedSetup.classList.add('hidden');
+
+        // Display the game code on ladder view
+        gameCodeText.textContent = currentRoomCode;
 
         // Show ladder view
         if (data.assignments) {
